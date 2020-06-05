@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xy.subway.mapper.PointMapper">
+    <resultMap id="point" type="com.xy.subway.bean.Point">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="cvalue" column="cvalue"/>
+        <result property="crate" column="crate"/>
+        <result property="ivalue" column="ivalue"/>
+        <result property="idate" column="idate"/>
+        <association property="sort" column="sort" javaType="com.xy.subway.bean.Sort">
+            <id property="id" column="sid"/>
+        </association>
+    </resultMap>
+    <select id="selectAllPoint" resultMap="point">
+        select id,name,sid,cvalue,crate,ivalue,idate from settlement
+    </select>
+    <select id="selectPointByName" parameterType="string" resultMap="point">
+        select id,name,sid,cvalue,crate,ivalue,idate from settlement where name = #{name}
+    </select>
+    <select id="selectPointById" parameterType="int" resultMap="point">
+        select id,name,sid,cvalue,crate,ivalue,idate from settlement where id = #{id}
+    </select>
+</mapper>
