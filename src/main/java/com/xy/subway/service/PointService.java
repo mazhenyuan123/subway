@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.function.ServerResponse;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,8 +26,8 @@ public class PointService {
     private DataMapper dataMapper;
     @Autowired
     private SortMapper sortMapper;
-    public String importExcel(MultipartFile file) throws Exception{
-        EasyExcel.read(file.getInputStream(),Data.class,new DataListener(dataMapper,pointMapper)).sheet().doRead();
+    public String importExcel(MultipartFile file, Date date) throws Exception{
+        EasyExcel.read(file.getInputStream(),Data.class,new DataListener(dataMapper,pointMapper,date)).sheet().doRead();
         return "success";
     }
     public List<Point> selectAllPoint (){

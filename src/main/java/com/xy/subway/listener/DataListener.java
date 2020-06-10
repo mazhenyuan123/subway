@@ -21,19 +21,20 @@ import java.util.List;
 public class DataListener extends AnalysisEventListener<Data> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataListener.class);
 
-    private static final int BATCH_COUNT=5;
-    List<Data> list = new ArrayList<Data>();
+    private static final int BATCH_COUNT = 5;
+    List<Data> list = new ArrayList<>();
     private DataMapper dataMapper;
     private PointMapper pointMapper;
-
+    private Date date;
     /**
      * 如果使用了spring,请使用这个构造方法。每次创建Listener的时候需要把spring管理的类传进来
      *
      * @param
      */
-    public DataListener(DataMapper dataMapper,PointMapper pointMapper) {
+    public DataListener(DataMapper dataMapper,PointMapper pointMapper,Date date) {
         this.dataMapper = dataMapper;
         this.pointMapper = pointMapper;
+        this.date = date;
     }
     @Override
     public void invoke(Data data, AnalysisContext analysisContext) {
@@ -66,7 +67,12 @@ public class DataListener extends AnalysisEventListener<Data> {
      */
     private void saveData() throws ParseException {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date now = new Date();
+        Date now;
+        if (this.date!=null){
+            now = this.date;
+        }else {
+            now = new Date();
+        }
         for(Data data:list){
             System.out.println(data.getCid());
             Point point = pointMapper.selectPointById(data.getCid());

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.function.ServerResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,8 +23,8 @@ public class PointController {
     private PointService pointService;
     DataMapper dataMapper;
     @PostMapping("/import")
-    public String importExcel ( @RequestParam(value = "file")MultipartFile file)throws Exception{
-        return pointService.importExcel(file);
+    public String importExcel (@RequestParam(value = "file")MultipartFile file, Date date)throws Exception{
+        return pointService.importExcel(file,date);
     }
     @PostMapping("/selectAllPoint")
     public List<Point> selectAllPoint (){
